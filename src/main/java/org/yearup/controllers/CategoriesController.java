@@ -5,6 +5,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.data.CategoryDao;
 import org.yearup.data.ProductDao;
+import org.yearup.data.mysql.MySqlCategoryDao;
+import org.yearup.data.mysql.MySqlProductDao;
 import org.yearup.models.Category;
 import org.yearup.models.Product;
 
@@ -27,6 +29,11 @@ public class CategoriesController
 
     @Autowired
     // create an Autowired controller to inject the categoryDao and ProductDao
+    CategoriesController(MySqlCategoryDao mySqlCategoryDao, MySqlProductDao mySqlProductDao){
+        this.categoryDao = mySqlCategoryDao;
+        this.productDao = mySqlProductDao;
+
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     // add the appropriate annotation for a get action
