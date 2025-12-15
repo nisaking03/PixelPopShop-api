@@ -65,7 +65,7 @@ public class CategoriesController
     @RequestMapping(method = RequestMethod.POST)
     // add annotation to call this method for a POST action
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     // add annotation to ensure that only an ADMIN can call this function
 
     public Category addCategory(@RequestBody Category category)
@@ -77,7 +77,7 @@ public class CategoriesController
     @RequestMapping(path = "/{id}" , method = RequestMethod.PUT)
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     // add annotation to ensure that only an ADMIN can call this function
 
     public void updateCategory(@PathVariable int id, @RequestBody Category category)
@@ -89,7 +89,7 @@ public class CategoriesController
     @RequestMapping(path = "/{id}" , method = RequestMethod.DELETE)
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     // add annotation to ensure that only an ADMIN can call this function
 
     public void deleteCategory(@PathVariable int id)
