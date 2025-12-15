@@ -25,11 +25,11 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
 
         String sql = "SELECT * FROM products " +
                 "WHERE (category_id = ? OR ? = -1) " +
-
                 "   AND (price >= ? OR ? = -1) " +
-                // Added a max price
-                
+
                 "   AND (price <= ? OR ? = -1) " +
+                // Added a max price
+
                 "   AND (subcategory = ? OR ? = '') ";
 
         categoryId = categoryId == null ? -1 : categoryId;
@@ -90,6 +90,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
             {
                 Product product = mapRow(row);
                 products.add(product);
+                //TODO Ask about why add product is here and if it's a bug
             }
         }
         catch (SQLException e)
