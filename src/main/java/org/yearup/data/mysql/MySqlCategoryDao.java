@@ -27,7 +27,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT * FROM categories";
 
-        try(Connection connection = super.getConnection();
+        try(Connection connection = getConnection();
 
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet results = statement.executeQuery()){
@@ -51,7 +51,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
             // Built logic in this method
     {
         String sql = "SELECT * FROM categories WHERE category_id = ?";
-        try(Connection connection = super.getConnection())
+        try(Connection connection = getConnection())
         {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
@@ -62,7 +62,6 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
             {
                 return mapRow(row);
             }
-
         }
         catch (SQLException e)
         {
@@ -74,6 +73,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
 
     @Override
     public Category create(Category category)
+            // Built logic in this method
     {
         String sql = "INSERT INTO categories(name, description) " +
                 " VALUES (?, ?);";  // Didn't include category_id because of auto increment
