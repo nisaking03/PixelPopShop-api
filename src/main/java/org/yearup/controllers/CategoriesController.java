@@ -63,6 +63,8 @@ public class CategoriesController
 
         }
         return category;
+
+        // Fixing bug so if category is null it'll throw instead of returning null to insomnia
     }
 
     //--------------------------------------------------------------------------------------------------
