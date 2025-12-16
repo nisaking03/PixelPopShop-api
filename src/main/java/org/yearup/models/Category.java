@@ -42,7 +42,6 @@ public class Category
     {
         return description;
     }
-    //TODO Not using getDescription anywhere
 
     public void setDescription(String description)
     {
