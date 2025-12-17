@@ -13,22 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
-{
-    public MySqlCategoryDao(DataSource dataSource)
-    {
+public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
+
+    public MySqlCategoryDao(DataSource dataSource){
+
         super(dataSource);
     }
 
+    //GET ALL-------------------------------------------------------------------------------------------
+
     @Override
-    public List<Category> getAllCategories()
+    public List<Category> getAllCategories(){
             // Built logic in this method
-    {
+
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT * FROM categories";
 
         try(Connection connection = getConnection();
-
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet results = statement.executeQuery()){
 
@@ -46,16 +47,18 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         // Returns all categories
     }
 
+    //GET BY ID-----------------------------------------------------------------------------------------
+
     @Override
-    public Category getById(int categoryId)
+    public Category getById(int categoryId){
             // Built logic in this method
-    {
+
         String sql = "SELECT * FROM categories WHERE category_id = ?";
-        try(Connection connection = getConnection())
-        {
+
+        try(Connection connection = getConnection()){
+
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
-
             ResultSet row = statement.executeQuery();
 
             if (row.next())
@@ -71,15 +74,19 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         // Get category by ID
     }
 
-    @Override
-    public Category create(Category category)
-            // Built logic in this method
-    {
-        String sql = "INSERT INTO categories(name, description) " +
-                " VALUES (?, ?);";  // Didn't include category_id because of auto increment
+    //CREATE--------------------------------------------------------------------------------------------
 
-        try (Connection connection = getConnection())
-        {
+    @Override
+    public Category create(Category category){
+            // Built logic in this method
+
+        String sql =
+                "INSERT INTO categories(name, description) " +
+                " VALUES (?, ?);";
+                // Didn't include category_id because of auto increment
+
+        try (Connection connection = getConnection()){
+
             PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
@@ -106,16 +113,19 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         return null;
     }
 
+    //UPDATE--------------------------------------------------------------------------------------------
+
     @Override
-    public void update(int categoryId, Category category)
-    {
-        String sql = "UPDATE categories " +
+    public void update(int categoryId, Category category){
+
+        String sql =
+                "UPDATE categories " +
                 " SET name = ? " +
                 "   , description = ? " +
                 " WHERE category_id = ?;";
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()){
+
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
@@ -129,14 +139,17 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         }
     }
 
+    //DELETE--------------------------------------------------------------------------------------------
+
     @Override
-    public void delete(int categoryId)
-    {
-        String sql = "DELETE FROM categories " +
+    public void delete(int categoryId){
+
+        String sql =
+                "DELETE FROM categories " +
                 " WHERE category_id = ?;";
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()){
+
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
 
@@ -148,8 +161,10 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         }
     }
 
-    private Category mapRow(ResultSet row) throws SQLException
-    {
+    //MAP ROW-------------------------------------------------------------------------------------------
+
+    private Category mapRow(ResultSet row) throws SQLException {
+
         int categoryId = row.getInt("category_id");
         String name = row.getString("name");
         String description = row.getString("description");
@@ -160,8 +175,6 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
             setName(name);
             setDescription(description);
         }};
-
         return category;
     }
-
 }

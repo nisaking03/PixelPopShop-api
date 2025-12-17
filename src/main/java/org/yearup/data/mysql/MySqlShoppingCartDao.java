@@ -10,19 +10,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
-    public MySqlShoppingCartDao(DataSource dataSource)
-    {
+public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao{
+
+    public MySqlShoppingCartDao(DataSource dataSource){
         super(dataSource);
     }
 
-    @Override
-    public ShoppingCart getByUserId(int userId)
+    //GET BY USER ID------------------------------------------------------------------------------------
 
-    {
+    @Override
+    public ShoppingCart getByUserId(int userId){
+
         String sql = "SELECT * FROM shopping_cart WHERE user_id = ?";
-        try(Connection connection = getConnection())
-        {
+
+        try(Connection connection = getConnection()){
+
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
 
@@ -40,15 +42,17 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         return null;
     }
 
-    @Override
-    public void addItem(ShoppingCartItem shoppingCartItem)
+    //ADD ITEM------------------------------------------------------------------------------------------
 
-    {
-//        String sql = "INSERT INTO shopping_cart(product_id, quantity)" +
+    @Override
+    public void addItem(ShoppingCartItem shoppingCartItem){
+
+//        String sql =
+//                "INSERT INTO shopping_cart(product_id, quantity)" +
 //                " VALUES (?, ?);";
 //
-//        try (Connection connection = getConnection())
-//        {
+//        try (Connection connection = getConnection()){
+//
 //            PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 //            statement.setInt(1, "product_Id");
 //            statement.setInt(2, quantity);
@@ -73,19 +77,20 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 //            throw new RuntimeException(e);
 //        }
 //        return null;
-
     }
 
-    @Override
-    public void updateProduct(ShoppingCartItem shoppingCartItem)
+    //UPDATE PRODUCT------------------------------------------------------------------------------------
 
-    {
-//        String sql = "UPDATE shopping_cart " +
+    @Override
+    public void updateProduct(ShoppingCartItem shoppingCartItem){
+
+//        String sql =
+//                "UPDATE shopping_cart " +
 //                " SET quantity = ? " +
 //                " WHERE product_id = ?;";
 //
-//        try (Connection connection = getConnection())
-//        {
+//        try (Connection connection = getConnection()){
+//
 //            PreparedStatement statement = connection.prepareStatement(sql);
 //            statement.setString(1, category.getName());
 //            statement.setString(2, category.getDescription());
@@ -97,18 +102,19 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 //        {
 //            throw new RuntimeException(e);
 //        }
-
     }
 
-    @Override
-    public void deleteCartItems(ShoppingCartItem shoppingCartItem)
+    //DELETE CART ITEM----------------------------------------------------------------------------------
 
-    {
-//        String sql = "DELETE FROM shopping_cart " +
+    @Override
+    public void deleteCartItems(ShoppingCartItem shoppingCartItem){
+
+//        String sql =
+//                "DELETE FROM shopping_cart " +
 //                " WHERE product_id = ?;";
 //
-//        try (Connection connection = getConnection())
-//        {
+//        try (Connection connection = getConnection()){
+//
 //            PreparedStatement statement = connection.prepareStatement(sql);
 //            statement.setInt(1, productId);
 //
@@ -118,7 +124,5 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 //        {
 //            throw new RuntimeException(e);
 //        }
-
     }
-
 }

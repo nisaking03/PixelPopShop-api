@@ -15,6 +15,7 @@ import org.yearup.models.Product;
 import java.util.List;
 
 @RestController
+// Handles web requests
 // add the annotations to make this a REST controller
 
 @RequestMapping("/categories")
@@ -23,82 +24,83 @@ import java.util.List;
 @CrossOrigin
 // add annotation to allow cross site origin requests
 
-public class CategoriesController
-{
+public class CategoriesController{
+
     private CategoryDao categoryDao;
     private ProductDao productDao;
 
 
     @Autowired
+    // This Auto-injects dependencies, in this case with ProductDao and CategoryDao
     // create an Autowired controller to inject the categoryDao and ProductDao
+
     CategoriesController(MySqlCategoryDao mySqlCategoryDao, MySqlProductDao mySqlProductDao){
+
         this.categoryDao = mySqlCategoryDao;
         this.productDao = mySqlProductDao;
-
     }
 
-    //--------------------------------------------------------------------------------------------------
+    //GET ALL-------------------------------------------------------------------------------------------
 
     @RequestMapping(method = RequestMethod.GET)
     // add the appropriate annotation for a get action
 
-    public List<Category> getAll()
-    {
+    public List<Category> getAll(){
+
         return categoryDao.getAllCategories();
         // find and return all categories
     }
 
-    //--------------------------------------------------------------------------------------------------
+    //GET BY ID-----------------------------------------------------------------------------------------
 
     @RequestMapping(path= "/{id}", method = RequestMethod.GET)
     // add the appropriate annotation for a get action
 
-    public Category getById(@PathVariable int id)
-    {
+    public Category getById(@PathVariable int id){
+
         Category category = categoryDao.getById(id);
 
         if (category == null) {
 
             throw new ResponseStatusException((HttpStatus.NOT_FOUND));
-
         }
         return category;
-
         // Fixing bug so if category is null it'll throw instead of returning null to insomnia
     }
 
-    //--------------------------------------------------------------------------------------------------
+    //GET PRODUCT BY ID---------------------------------------------------------------------------------
 
     @GetMapping("{categoryId}/products")
+    // Handle GET requests
     // the url to return all products in category 1 would look like this https://localhost:8080/categories/1/products
 
-    public List<Product> getProductsById(@PathVariable int categoryId)
-    {
+    public List<Product> getProductsById(@PathVariable int categoryId){
+
         return productDao.listByCategoryId(categoryId);
         // get a list of product by categoryId
     }
 
-    //--------------------------------------------------------------------------------------------------
+    //ADD CATEGORY--------------------------------------------------------------------------------------
 
     @RequestMapping(method = RequestMethod.POST)
     // add annotation to call this method for a POST action
 
     @ResponseStatus(HttpStatus.CREATED)
-    // Had this error:  "AssertionError: expected 200 to equal 201 | ACTUAL: 200 | EXPECTED: 201"
-    // 200 OK - Indicates that the request has succeeded.
-    // 201 CREATED - Indicates that the request has succeeded and a new resource has been created as a result.
-    // I needed this annotation to make the 201 request
+    /* Had this error:  "AssertionError: expected 200 to equal 201 | ACTUAL: 200 | EXPECTED: 201"
+       200 OK - Indicates that the request has succeeded.
+       201 CREATED - Indicates that the request has succeeded and a new resource has been created as a result.
+       I needed this annotation to make the 201 request */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     // add annotation to ensure that only an ADMIN can call this function
 
-    public Category addCategory(@RequestBody Category category)
-    {
+    public Category addCategory(@RequestBody Category category){
+
         return categoryDao.create(category);
         // insert the category
     }
 
-    //--------------------------------------------------------------------------------------------------
+    //UPDATE CATEGORY-----------------------------------------------------------------------------------
 
     @RequestMapping(path = "/{id}" , method = RequestMethod.PUT)
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
@@ -106,13 +108,13 @@ public class CategoriesController
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     // add annotation to ensure that only an ADMIN can call this function
 
-    public void updateCategory(@PathVariable int id, @RequestBody Category category)
-    {
+    public void updateCategory(@PathVariable int id, @RequestBody Category category){
+
         categoryDao.update(id,category);
         // update the category by id
     }
 
-    //--------------------------------------------------------------------------------------------------
+    //DELETE CATEGORY-----------------------------------------------------------------------------------
 
     @RequestMapping(path = "/{id}" , method = RequestMethod.DELETE)
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
@@ -127,8 +129,8 @@ public class CategoriesController
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     // add annotation to ensure that only an ADMIN can call this function
 
-    public void deleteCategory(@PathVariable int id)
-    {
+    public void deleteCategory(@PathVariable int id){
+
         categoryDao.delete(id);
         // delete the category by id
     }

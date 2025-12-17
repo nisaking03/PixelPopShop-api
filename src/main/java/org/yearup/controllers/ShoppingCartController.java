@@ -21,24 +21,24 @@ import java.security.PublicKey;
 // convert this class to a REST controller
 
 @PreAuthorize("hasRole('ROLE_USER', 'ROLE_ADMIN')")
-// only logged in users should have access to these actions
+// only logged-in users should have access to these actions
 
 @RequestMapping("cart")
-public class ShoppingCartController
-{
+public class ShoppingCartController{
+
     // a shopping cart requires
     private ShoppingCartDao shoppingCartDao;
     private UserDao userDao;
     private ProductDao productDao;
 
-    //-----------------------------------------------------------------------------------------------------
+    //GET CART------------------------------------------------------------------------------------------
 
     // each method in this controller requires a Principal object as a parameter
-    public ShoppingCart getCart(Principal principal)
-    {
+    public ShoppingCart getCart(Principal principal){
+
         try
         {
-            // get the currently logged in username
+            // get the currently logged-in username
             String userName = principal.getName();
             // find database user by userId
             User user = userDao.getByUserName(userName);
@@ -55,7 +55,7 @@ public class ShoppingCartController
         }
     }
 
-    //-----------------------------------------------------------------------------------------------------
+    //ADD PRODUCT---------------------------------------------------------------------------------------
 
     @RequestMapping(method = RequestMethod.POST)
     // add a POST method to add a product to the cart - the url should be
@@ -64,11 +64,10 @@ public class ShoppingCartController
     public ShoppingCart addProduct(Principal principal, @PathVariable ShoppingCartItem shoppingCartItem){
 
         shoppingCartDao.addItem(shoppingCartItem);
-
         return null;
     }
 
-    //-----------------------------------------------------------------------------------------------------
+    //UPDATE CART---------------------------------------------------------------------------------------
 
     @RequestMapping(method = RequestMethod.PUT)
     // add a PUT method to update an existing product in the cart - the url should be
@@ -76,20 +75,20 @@ public class ShoppingCartController
     // the BODY should be a ShoppingCartItem - quantity is the only value that will be updated
 
     public ShoppingCart updateCart (Principal principal, @PathVariable ShoppingCartItem shoppingCartItem){
-        shoppingCartDao.updateProduct(shoppingCartItem);
 
+        shoppingCartDao.updateProduct(shoppingCartItem);
         return null;
     }
 
+    //DELETE CART---------------------------------------------------------------------------------------
 
     @RequestMapping(method = RequestMethod.DELETE)
     // add a DELETE method to clear all products from the current users cart
     // https://localhost:8080/cart
 
     public ShoppingCart deleteCart (Principal principal, @PathVariable ShoppingCartItem shoppingCartItem){
-        shoppingCartDao.deleteCartItems(shoppingCartItem);
 
+        shoppingCartDao.deleteCartItems(shoppingCartItem);
         return null;
     }
-
 }

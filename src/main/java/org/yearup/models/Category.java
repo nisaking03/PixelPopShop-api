@@ -21,7 +21,6 @@ public class Category
     {
         return categoryId;
     }
-    //TODO Not using getCategoryId anywhere
 
     public void setCategoryId(int categoryId)
     {
