@@ -44,7 +44,7 @@ public class ShoppingCartController{
 
     //GET CART------------------------------------------------------------------------------------------
 
-    @GetMapping("/shopping_cart")
+    @GetMapping()
 
     // each method in this controller requires a Principal object as a parameter
     public ShoppingCart getCart(Principal principal){
@@ -88,7 +88,7 @@ public class ShoppingCartController{
 
             // use the shoppingCartDao to get all items in the cart and return the cart
 
-            return shoppingCartDao.addItem();
+            shoppingCartDao.addItem(userId, productId);
         }
         catch(Exception e)
         {
@@ -116,7 +116,7 @@ public class ShoppingCartController{
 
             // use the shoppingCartDao to get all items in the cart and return the cart
 
-            return shoppingCartDao.updateItemQuantity();
+            shoppingCartDao.updateItemQuantity(userId, productId, item.getQuantity());
         }
         catch(Exception e)
         {
@@ -127,6 +127,7 @@ public class ShoppingCartController{
     //DELETE CART---------------------------------------------------------------------------------------
 
     @DeleteMapping("/cart")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     // add a DELETE method to clear all products from the current users cart
     // https://localhost:8080/cart
 
