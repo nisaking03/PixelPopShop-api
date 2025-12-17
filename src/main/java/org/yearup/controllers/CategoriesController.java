@@ -42,7 +42,7 @@ public class CategoriesController{
 
     //GET ALL-------------------------------------------------------------------------------------------
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping()
     // add the appropriate annotation for a get action
 
     public List<Category> getAll(){
@@ -53,7 +53,7 @@ public class CategoriesController{
 
     //GET BY ID-----------------------------------------------------------------------------------------
 
-    @RequestMapping(path= "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     // add the appropriate annotation for a get action
 
     public Category getById(@PathVariable int id){
@@ -82,7 +82,7 @@ public class CategoriesController{
 
     //ADD CATEGORY--------------------------------------------------------------------------------------
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping()
     // add annotation to call this method for a POST action
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -102,7 +102,7 @@ public class CategoriesController{
 
     //UPDATE CATEGORY-----------------------------------------------------------------------------------
 
-    @RequestMapping(path = "/{id}" , method = RequestMethod.PUT)
+    @PutMapping("/{id}")
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -116,7 +116,7 @@ public class CategoriesController{
 
     //DELETE CATEGORY-----------------------------------------------------------------------------------
 
-    @RequestMapping(path = "/{id}" , method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
